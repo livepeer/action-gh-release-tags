@@ -13,5 +13,5 @@ runs:
   using: "composite"
   steps:
     - id: release-tags
-      run: ${{ github.action_path }}/release-tags.sh
+      run: ${{ github.action_path }}/release-tags.sh ${{ inputs.who-to-greet }}
       shell: bash

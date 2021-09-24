@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo Hello ${{ inputs.who-to-greet }}.
+echo Hello $1.
 
 echo "::set-output name=random-id::$(echo $RANDOM)"
 
