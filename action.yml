@@ -1,5 +1,7 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'Github Release Tags'
+description:
+  Parse git version tag, branch and generate publishable tags that identify the
+  current build.
 inputs:
   tags-prefix:
     description:
