@@ -21,7 +21,7 @@ VERSION=$(git describe --tag --dirty)
 BRANCHES=$(getBranches)
 TAGS="$VERSION $BRANCHES"
 if [[ $VERSION =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  TAGS= "latest $TAGS"
+  TAGS="latest $TAGS"
 fi
 
 echo "::set-output name=version::$VERSION"
