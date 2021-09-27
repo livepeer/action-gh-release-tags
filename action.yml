@@ -1,17 +1,27 @@
 name: 'Hello World'
 description: 'Greet someone'
 inputs:
-  who-to-greet:
-    description: 'Who to greet'
-    required: true
-    default: 'World'
+  tags-prefix:
+    description:
+      Prefix to add to all tags separated by a dash. When a prefix is present,
+      the "latest" tag will actually be just the provided prefix.
+    required: false
+    default: ''
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.release-tags.outputs.random-id }}
+  version:
+    description: "Tag pointing to the current commit as obtained from `git describe`"
+    value: ${{ steps.release-tags.outputs.version }}
+  branches:
+    description: "Branches pointing to the current commit as obtained from `git branch`"
+    value: ${{ steps.release-tags.outputs.branches }}
+  tags:
+    description:
+      Tags that should be published for the current build. Includes `version`,
+      `branches` and potentially "latest" if version is a stable semver.
+    value: ${{ steps.release-tags.outputs.tags }}
 runs:
   using: "composite"
   steps:
     - id: release-tags
-      run: ${{ github.action_path }}/release-tags.sh "${{ inputs.who-to-greet }}"
+      run: ${{ github.action_path }}/release-tags.sh "${{ inputs.tags-prefix }}"
       shell: bash
