@@ -2,7 +2,8 @@
 
 set -ex
 
-TAGS_PREFIX="$1"
+TAGS_PREFIX=${TAGS_PREFIX:-""}
+FORCE_LATEST=${FORCE_LATEST:-false}
 
 function getBranches() {
   GH_REF=${GITHUB_HEAD_REF:-$GITHUB_REF}
@@ -21,25 +22,25 @@ function getBranches() {
 }
 
 function getTags() {
-  PREFIX=$1
-  VERSION=$2
-  BRANCHES=$3
+  PREFIX=$TAGS_PREFIX
+  VERSION=$1
+  BRANCHES=$2
 
-  if [[ $VERSION =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    printf "${PREFIX:-latest} "
+  if [[ $VERSION =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ || "$FORCE_LATEST" = "true" ]]; then
+    echo "${PREFIX:-latest}"
   fi
   for tag in $VERSION $BRANCHES; do
     if [[ -z "$PREFIX" || "$tag" = "$PREFIX" ]]; then
-      printf "$tag "
+      echo "$tag"
     else
-      printf "%s-%s " $PREFIX $tag
+      echo "$PREFIX-$tag"
     fi
   done
 }
 
 VERSION=$(git describe --tag --dirty)
 BRANCHES=$(getBranches)
-TAGS=$(getTags "$TAGS_PREFIX" "$VERSION" "$BRANCHES")
+TAGS=$(getTags "$VERSION" "$BRANCHES" | sort | uniq | tr '\n' ' ')
 
 echo "::set-output name=version::$VERSION"
 echo "::set-output name=branches::$BRANCHES"

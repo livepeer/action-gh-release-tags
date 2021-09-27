@@ -9,6 +9,11 @@ inputs:
       the "latest" tag will actually be just the provided prefix.
     required: false
     default: ''
+  force-latest:
+    description:
+      Always generate the "latest" tag even on non stable semver versions.
+    required: false
+    default: "false"
 outputs:
   version:
     description: "Tag pointing to the current commit as obtained from `git describe`"
@@ -25,5 +30,8 @@ runs:
   using: "composite"
   steps:
     - id: release-tags
-      run: ${{ github.action_path }}/release-tags.sh "${{ inputs.tags-prefix }}"
       shell: bash
+      run: ${{ github.action_path }}/release-tags.sh
+      env:
+        TAGS_PREFIX: ${{ inputs.tags-prefix }}
+        FORCE_LATEST: ${{ inputs.force-latest }}
