@@ -19,9 +19,11 @@ function getBranches() {
 
 VERSION=$(git describe --tag --dirty)
 BRANCHES=$(getBranches)
-
-set +x
+TAGS="$VERSION $BRANCHES"
+if [[ $VERSION =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  TAGS= "latest $TAGS"
+fi
 
 echo "::set-output name=version::$VERSION"
 echo "::set-output name=branches::$BRANCHES"
-echo "::set-output name=tags::$VERSION $BRANCHES"
+echo "::set-output name=tags::$TAGS"
