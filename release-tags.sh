@@ -2,9 +2,7 @@
 set -ex
 
 function getBranches() {
-  echo "$GITHUB_HEAD_REF"
-  echo "$GITHUB_REF"
-  GH_REF=${GITHUB_HEAD_REF:-$$GITHUB_REF}
+  GH_REF=${GITHUB_HEAD_REF:-$GITHUB_REF}
   if [[ $GH_REF == refs/heads/* ]]; then
     GH_REF=${GH_REF#refs/heads/}
   else
