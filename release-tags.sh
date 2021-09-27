@@ -7,7 +7,7 @@ function getBranches() {
     GH_REF=${GH_REF#refs/heads/}
   else
     GH_REF=$(git branch -a --points-at HEAD \
-        | sed -e 's/^[\* ]*//' -e 's/^remotes\/origin\///' -e '/^HEAD /d' \
+        | sed -e 's/^[\* ]*//' -e 's/^remotes\/origin\///' -e '/HEAD /d' \
         | sort | uniq)
   fi
 
