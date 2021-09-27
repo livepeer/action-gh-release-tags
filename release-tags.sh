@@ -29,7 +29,7 @@ function getTags() {
     printf "${PREFIX:-latest} "
   fi
   for tag in $VERSION $BRANCHES; do
-    if [ -z "$PREFIX" ]; then
+    if [[ -z "$PREFIX" || "$tag" = "$PREFIX" ]]; then
       printf "$tag "
     else
       printf "%s-%s " $PREFIX $tag
