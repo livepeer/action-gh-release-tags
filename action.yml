@@ -11,9 +11,14 @@ inputs:
     default: ''
   force-latest:
     description:
-      Always generate the "latest" tag even on non stable semver versions.
+      Always generate the "latest" tag in any context.
     required: false
     default: "false"
+  always-latest-on-branch:
+    description:
+      Always generate the "latest" tag when executing on the specified branch.
+    required: false
+    default: ''
 outputs:
   version:
     description: "Tag pointing to the current commit as obtained from `git describe`"
@@ -35,3 +40,4 @@ runs:
       env:
         TAGS_PREFIX: ${{ inputs.tags-prefix }}
         FORCE_LATEST: ${{ inputs.force-latest }}
+        ALWAYS_LATEST_ON_BRANCH: ${{ inputs.always-latest-on-branch }}

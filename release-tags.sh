@@ -4,6 +4,7 @@ set -ex
 
 TAGS_PREFIX=${TAGS_PREFIX:-""}
 FORCE_LATEST=${FORCE_LATEST:-false}
+ALWAYS_LATEST_ON_BRANCH=${ALWAYS_LATEST_ON_BRANCH:-""}
 
 function getBranches() {
   GH_REF=${GITHUB_HEAD_REF:-$GITHUB_REF}
@@ -25,6 +26,12 @@ function getTags() {
   PREFIX=$TAGS_PREFIX
   VERSION=$1
   BRANCHES=$2
+
+  for branch in $BRANCHES; do
+    if [[ "$branch" = "$ALWAYS_LATEST_ON_BRANCH" ]]; then
+      FORCE_LATEST="true"
+    fi
+  done
 
   if [[ $VERSION =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ || "$FORCE_LATEST" = "true" ]]; then
     echo "${PREFIX:-latest}"
