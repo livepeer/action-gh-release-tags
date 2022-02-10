@@ -2,6 +2,7 @@ name: 'Github Release Tags'
 description:
   Parse git version tag, branch and generate publishable tags that identify the
   current build.
+
 inputs:
   tags-prefix:
     description:
@@ -19,6 +20,7 @@ inputs:
       Always generate the "latest" tag when executing on the specified branch.
     required: false
     default: ''
+
 outputs:
   version:
     description: "Tag pointing to the current commit as obtained from `git describe`"
@@ -31,6 +33,7 @@ outputs:
       Tags that should be published for the current build. Includes `version`,
       `branches` and potentially "latest" if version is a stable semver.
     value: ${{ steps.release-tags.outputs.tags }}
+
 runs:
   using: "composite"
   steps:
